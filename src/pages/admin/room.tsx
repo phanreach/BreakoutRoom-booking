@@ -1,7 +1,7 @@
-import useRoomQuery from "../components/hook/use-room-query";
-import RoomCard from "../components/room-card";
+import useRoomQuery from "../../components/hook/use-room-query";
+import RoomCard from "../../components/room-card";
 
-export default function Book() {
+export default function Room() {
   const { data: roomsData, isLoading, error } = useRoomQuery();
 
   if (isLoading) return <p>Loading...</p>;

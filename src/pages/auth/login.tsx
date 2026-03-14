@@ -1,10 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "../../components/ui/input";
 import Logo from "/src/assets/logo.png";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
 import useLogin from "../../components/hook/use-login";
 import Cookies from "js-cookie";
+import {
+  loginSchema,
+  type LoginSchema,
+} from "../../components/lib/schema/login-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -12,16 +18,19 @@ export default function Login() {
   const loginMutation = useLogin();
   const loading = loginMutation.isPending;
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+  });
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: LoginSchema) => {
     try {
-      await loginMutation.mutateAsync({ email, password });
+      await loginMutation.mutateAsync(data);
 
       const role = Cookies.get("role");
 
@@ -62,7 +71,7 @@ export default function Login() {
             </p>
           </div>
 
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                 University Email
@@ -71,10 +80,14 @@ export default function Login() {
                 <Input
                   type="email"
                   placeholder="Enter CamTech email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  {...register("email")}
                 />
+
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -87,12 +100,15 @@ export default function Login() {
               <div className="relative">
                 <Input
                   type={showPassword ? "text" : "password"}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-jci-primary-dark focus:border-transparent outline-none transition-all"
                   placeholder="Enter your password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("password")}
                 />
+
+                {errors.password && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.password.message}
+                  </p>
+                )}
                 <button
                   type="button"
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none"

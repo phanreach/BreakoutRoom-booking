@@ -7,6 +7,8 @@ import MyBooking from "./pages/my-booking";
 import Dashboard from "./pages/dashboard";
 import ProtectedRoute from "./components/protect-route";
 import AdminDashboard from "./pages/admin/dashboard";
+import AdminLayout from "./components/layout/admin-layout";
+import Room from "./pages/admin/room";
 
 function App() {
   return (
@@ -23,7 +25,11 @@ function App() {
       </Route>
 
       <Route element={<ProtectedRoute allowedRoles={["ADMIN"]} />}>
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route element={<AdminLayout />}>
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/room" element={<Room />} />
+          <Route path="/admin/bookings" element={<MyBooking />} />
+        </Route>
       </Route>
     </Routes>
   );

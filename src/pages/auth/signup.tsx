@@ -1,7 +1,35 @@
 import { Input } from "../../components/ui/input";
 import Logo from "/src/assets/logo.png";
+import useSignUp from "../../components/hook/use-signup";
+import { useState } from "react";
+import {
+  registerSchema,
+  type RegisterSchema,
+} from "../../components/lib/schema/register-schema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeClosed } from "lucide-react";
 
 export default function SignUp() {
+  const signup = useSignUp();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
+  });
+
+  const onSubmit = async (data: RegisterSchema) => {
+    try {
+      await signup.mutateAsync(data);
+    } catch {
+      // errors handled in hook
+    }
+  };
+
   return (
     <div className="font-display bg-background-light dark:bg-background-dark min-h-screen flex items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 z-0">
@@ -23,51 +51,90 @@ export default function SignUp() {
               className="w-50 h-auto"
             />
             <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-              Breakout Booking
+              Breakout Room
             </h1>
             <p className="text-slate-500 dark:text-slate-400 mt-1">
               Reserve your study space
             </p>
           </div>
-
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+            {/* Username */}
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                Username
+                Full Name
               </label>
-              <div className="relative">
-                <Input type="text" placeholder="Enter your username" required />
-              </div>
+              <Input
+                type="text"
+                placeholder="Enter your username"
+                {...register("fullName")}
+              />
+              {errors.fullName && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.fullName.message}
+                </p>
+              )}
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                CamTech Email
+              </label>
+              <Input
+                type="email"
+                placeholder="Enter CamTech email"
+                {...register("email")}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                University Email
+                Phone
+              </label>
+              <Input
+                type="text"
+                placeholder="Enter your phone number"
+                {...register("phone")}
+              />
+              {errors.phone && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.phone.message}
+                </p>
+              )}
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                Password
               </label>
               <div className="relative">
                 <Input
-                  type="email"
-                  placeholder="Enter CamTech email"
-                  required
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between mb-1.5">
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                  Password
-                </label>
-              </div>
-              <div className="relative">
-                <Input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  required
+                  {...register("password")}
                 />
+                <button
+                  type="button"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                >
+                  {showPassword ? <Eye size={20} /> : <EyeClosed size={20} />}
+                </button>
               </div>
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
+            {/* Remember */}
             <div className="flex items-center">
               <input
                 type="checkbox"
@@ -78,15 +145,18 @@ export default function SignUp() {
               </label>
             </div>
 
+            {/* Submit */}
             <button
               type="submit"
+              disabled={isSubmitting || signup.isPending}
               className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 px-4 rounded-lg transition-all transform active:scale-[0.98] shadow-lg shadow-primary/25"
             >
-              Sign In
+              {isSubmitting || signup.isPending ? "Signing up..." : "Sign Up"}
             </button>
           </form>
+
           <p className="text-center text-sm mt-8">
-            Already haven account?{" "}
+            Already have an account?{" "}
             <a
               href="/login"
               className="font-semibold text-primary hover:underline"

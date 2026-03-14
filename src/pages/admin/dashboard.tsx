@@ -8,14 +8,25 @@ export default function AdminDashboard() {
       title: "Total Bookings",
       value: 0,
       icon: "users" as const,
+      iconColor: "text-blue-500",
+    },
+    {
+      id: "user",
+      title: "Total Users",
+      value: 0,
+      icon: "CalendarCheck" as const,
       iconColor: "text-green-500",
+    },
+    {
+      id: "room",
+      title: "Room Occupancy",
+      value: 0,
+      icon: "ClipboardClock" as const,
+      iconColor: "text-red-500",
     },
   ];
   return (
     <div className="min-h-screen">
-      <div>
-        <h1 className="font-bold text-3xl px-4">Welcome Back!</h1>
-      </div>
       <div className="w-full py-6 space-y-6">
         <DashboardStats stats={stats} isLoading={isLoading} />
       </div>

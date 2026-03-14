@@ -11,35 +11,29 @@ if (!VITE_BASE_URL) {
 
 const api = axios.create({
   baseURL: VITE_BASE_URL,
-  withCredentials: false,
+  withCredentials: true,
 });
 
-api.interceptors.request.use(
-  (config) => {
-    const token = Cookies.get("token");
-    const isLoginRequest = config.url?.includes("/login");
+api.interceptors.request.use((config) => {
+  const token = Cookies.get("token");
 
-    if (!token && !isLoginRequest) {
-      return Promise.reject(
-        new axios.Cancel("Redirected to login: No auth token"),
-      );
-    }
+  const url = config.url?.toLowerCase() || "";
+  const publicEndpoints = ["/login", "/register"];
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+  const isPublic = publicEndpoints.some((path) => url.includes(path));
 
-    if (config.data instanceof FormData) {
-      delete config.headers["Content-Type"];
-    } else {
-      config.headers["Content-Type"] = "application/json";
-    }
+  if (!isPublic && token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
+  if (config.data instanceof FormData) {
+    delete config.headers["Content-Type"];
+  } else {
+    config.headers["Content-Type"] = "application/json";
+  }
 
+  return config;
+});
 api.interceptors.response.use(
   (response) => {
     return response;

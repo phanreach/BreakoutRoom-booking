@@ -8,6 +8,9 @@ import {
   CircleDollarSignIcon,
   ClipboardClockIcon,
   NewspaperIcon,
+  CalendarCheck,
+  Clock,
+  House,
 } from "lucide-react";
 
 const iconMap = {
@@ -17,9 +20,13 @@ const iconMap = {
   Calendar: Calendar,
   Folder: Folder,
   Ticket: Ticket,
+  CalendarCheck: CalendarCheck,
   Dollar: CircleDollarSignIcon,
   Remaining: ClipboardClockIcon,
   News: NewspaperIcon,
+  ClipboardClock: ClipboardClockIcon,
+  Clock: Clock,
+  House: House,
 };
 
 export default function DashboardStats({
