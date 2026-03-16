@@ -74,7 +74,7 @@ export default function Login() {
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                University Email
+                CamTech Email
               </label>
               <div className="relative">
                 <Input

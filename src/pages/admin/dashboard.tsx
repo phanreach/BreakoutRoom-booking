@@ -27,7 +27,7 @@ export default function AdminDashboard() {
   ];
   return (
     <div className="min-h-screen">
-      <div className="w-full py-6 space-y-6">
+      <div className="w-auto py-6 space-y-6">
         <DashboardStats stats={stats} isLoading={isLoading} />
       </div>
     </div>

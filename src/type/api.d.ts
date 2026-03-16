@@ -1,3 +1,8 @@
+export type RoomImage = {
+  id: number;
+  image_url: string[];
+};
+
 export type Room = {
   id: number;
   name: string;
@@ -5,4 +10,5 @@ export type Room = {
   floor: string;
   isAvailable: boolean;
   images: string[];
+  description: string;
 };

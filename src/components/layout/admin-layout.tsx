@@ -16,7 +16,7 @@ export default function AdminLayout() {
 function Content({ collapsed }: { collapsed: boolean }) {
   return (
     <main
-      className={`flex-1 transition-all duration-300 p-6 ${
+      className={`flex-1 transition-all duration-300 ${
         collapsed ? "ml-20" : "ml-64"
       }`}
     >
