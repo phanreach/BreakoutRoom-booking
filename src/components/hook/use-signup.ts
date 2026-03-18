@@ -51,7 +51,7 @@ export default function useSignUp() {
       if (data.role === "ADMIN") {
         navigate("/admin/dashboard");
       } else {
-        navigate("/");
+        navigate("/dashboard");
       }
     },
     onError: (error: unknown) => {

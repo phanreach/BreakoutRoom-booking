@@ -24,7 +24,7 @@ export default function SideBar({
   };
 
   const navItems = [
-    { icon: LayoutDashboard, label: "Dashboard", href: "/" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
     { icon: CirclePlus, label: "Book a Room", href: "/book-room" },
     { icon: Calendar, label: "My Bookings", href: "/my-bookings" },
   ];
@@ -67,8 +67,7 @@ export default function SideBar({
       <div className="flex-1 overflow-y-auto px-3 py-6">
         <nav className="space-y-1">
           {navItems.map(({ icon: Icon, label, href }) => {
-            const isActive = location.pathname === href;
-
+            const isActive = location.pathname.startsWith(href);
             return (
               <button
                 key={label}

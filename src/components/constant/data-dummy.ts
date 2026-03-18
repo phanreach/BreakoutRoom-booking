@@ -52,3 +52,24 @@ export const recentActivity = [
     time: "Feb 12, 2024",
   },
 ];
+
+export const dummyData = [
+  { date: "MON", usage: 5 },
+  { date: "TUE", usage: 8 },
+  { date: "WED", usage: 4 },
+  { date: "THU", usage: 10 },
+  { date: "FRI", usage: 6 },
+  { date: "SAT", usage: 7 },
+  { date: "SUN", usage: 3 },
+];
+
+// If you want to compare multiple rooms:
+export const dummyDataMulti = [
+  { date: "MON", RoomA: 5, RoomB: 3 },
+  { date: "TUE", RoomA: 8, RoomB: 6 },
+  { date: "WED", RoomA: 4, RoomB: 7 },
+  { date: "THU", RoomA: 10, RoomB: 2 },
+  { date: "FRI", RoomA: 6, RoomB: 5 },
+  { date: "SAT", RoomA: 7, RoomB: 4 },
+  { date: "SUN", RoomA: 3, RoomB: 6 },
+];

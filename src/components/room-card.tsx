@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import type { Room } from "../type/api";
 import {
   Users,
@@ -23,8 +24,14 @@ export default function RoomCard({
 }: Props) {
   const image =
     rooms.images && rooms.images.length > 0
-      ? rooms.images[0] // now a string URL
+      ? rooms.images[0]
       : "https://placehold.co/400x250?text=No+Image";
+
+  const navigate = useNavigate();
+
+  const handleNavigate = (roomId: number) => {
+    navigate(`/book-room/${roomId}`, { state: { room: rooms } });
+  };
 
   return (
     <div className="max-w-sm rounded-2xl overflow-hidden shadow-md bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col border border-gray-100">
@@ -53,7 +60,6 @@ export default function RoomCard({
         </div>
       </div>
 
-      {/* Body */}
       <div className="p-4 flex flex-col flex-grow">
         <div className="flex justify-between items-start gap-2">
           <h3 className="text-lg font-bold text-gray-900 leading-snug">
@@ -64,16 +70,20 @@ export default function RoomCard({
             {rooms.capacity}
           </div>
         </div>
-
+        <div className="mt-3 flex items-center gap-1.5 text-sm text-slate-500">
+          <span>Floor {rooms.description}</span>
+        </div>
         <div className="mt-3 flex items-center gap-1.5 text-sm text-slate-500">
           <MapPin className="w-4 h-4 text-slate-400" />
           <span>Floor {rooms.floor}</span>
         </div>
 
-        {/* Footer */}
         <div className="border-t border-gray-100 mt-4 pt-4 flex justify-end items-center gap-2">
           {!isAdmin && (
-            <button className="bg-[#003366] text-white text-sm font-semibold px-5 py-2 rounded-xl hover:bg-[#014487] shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer">
+            <button
+              className="bg-[#003366] text-white text-sm font-semibold px-5 py-2 rounded-xl hover:bg-[#014487] shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer"
+              onClick={() => handleNavigate(rooms.id)}
+            >
               Book Now
             </button>
           )}

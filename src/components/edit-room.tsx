@@ -1,9 +1,11 @@
-import { User, X, Shield } from "lucide-react";
-import { useEffect } from "react";
-import UseUpdateRoom from "./hook/use-update-room";
-import { roomSchema, type RoomSchema } from "./lib/schema/room-schema";
+import { User, X, Shield, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import UseUpdateRoom from "./hook/use-update-room";
+import UseUpdateRoomImage from "./hook/use-update-room-image";
+import UseDeleteImage from "./hook/use-delete-image";
+import { roomSchema, type RoomSchema } from "./lib/schema/room-schema";
 import type { Room } from "../type/api";
 import { Switch } from "./ui/switch";
 
@@ -13,7 +15,21 @@ type Props = {
 };
 
 export default function EditRoom({ room, onClose }: Props) {
-  const { mutate, isPending } = UseUpdateRoom();
+  const { mutate: mutateRoom, isPending: isUpdatingRoom } = UseUpdateRoom();
+  const { mutate: mutateImages, isPending: isUploadingImages } =
+    UseUpdateRoomImage();
+  const { mutateAsync: deleteImage } = UseDeleteImage();
+
+  const [images, setImages] = useState<File[]>([]);
+  const [existingImages, setExistingImages] = useState<string[]>([]);
+  const [removedImageIds, setRemovedImageIds] = useState<number[]>([]);
+
+  const getImageIdFromUrl = (url: string) => {
+    const match = url.match(/\/(\d+)(?:\.[^/]+)?(?:\?.*)?$/);
+    if (!match) return null;
+    const id = Number(match[1]);
+    return Number.isNaN(id) ? null : id;
+  };
 
   const {
     register,
@@ -34,16 +50,45 @@ export default function EditRoom({ room, onClose }: Props) {
         floor: room.floor,
         isAvailable: room.isAvailable,
       });
+
+      setExistingImages(room.images ?? []);
+      setImages([]);
+      setRemovedImageIds([]);
     }
   }, [room, reset]);
+
+  const handleAddImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    setImages((prev) => [...prev, ...Array.from(e.target.files)]);
+  };
+
+  const handleRemoveNewImage = (index: number) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleRemoveExistingImage = (index: number) => {
+    setExistingImages((prev) => {
+      const removedUrl = prev[index];
+      const imageId = getImageIdFromUrl(removedUrl);
+      if (imageId != null) {
+        setRemovedImageIds((ids) => [...ids, imageId]);
+      }
+      return prev.filter((_, i) => i !== index);
+    });
+  };
 
   const handleClose = () => {
     onClose();
     reset();
+    setImages([]);
+    setExistingImages(room.images ?? []);
+    setRemovedImageIds([]);
   };
 
+  // Combined submit: update room data + images
   const onSubmit = (data: RoomSchema) => {
-    mutate(
+    // Update room info first
+    mutateRoom(
       {
         roomId: room.id,
         name: data.name,
@@ -53,7 +98,26 @@ export default function EditRoom({ room, onClose }: Props) {
         isAvailable: data.isAvailable ?? false,
       },
       {
-        onSuccess: () => handleClose(),
+        onSuccess: async () => {
+          // If user removed existing images, delete them first
+          if (removedImageIds.length > 0) {
+            await Promise.all(
+              removedImageIds.map((imageId) =>
+                deleteImage({ imageId }).catch(() => undefined),
+              ),
+            );
+          }
+
+          // Then upload new images (if any)
+          if (images.length > 0) {
+            mutateImages(
+              { roomId: room.id, files: images },
+              { onSuccess: () => handleClose() },
+            );
+          } else {
+            handleClose();
+          }
+        },
       },
     );
   };
@@ -124,17 +188,91 @@ export default function EditRoom({ room, onClose }: Props) {
               <Controller
                 name="isAvailable"
                 control={control}
-                defaultValue={room.isAvailable ?? false} // important!
+                defaultValue={room.isAvailable ?? false}
                 render={({ field: { value, onChange } }) => (
                   <Switch
-                    checked={Boolean(value)} // ensure boolean
-                    onCheckedChange={(checked) => onChange(Boolean(checked))} // force boolean
+                    checked={Boolean(value)}
+                    onCheckedChange={(checked) => onChange(Boolean(checked))}
                   />
                 )}
               />
             </div>
+
+            {/* Images */}
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-bold text-black">Images</label>
+              <div
+                className="flex flex-wrap gap-2 mt-2 border-2 border-dashed border-gray-300 rounded-lg p-4 cursor-pointer hover:border-blue-500"
+                onClick={() =>
+                  document.getElementById("room-image-input")?.click()
+                }
+              >
+                {existingImages.length > 0 || images.length > 0 ? (
+                  <>
+                    {existingImages.map((url, index) => (
+                      <div
+                        key={`existing-${index}-${url}`}
+                        className="relative w-20 h-20 border rounded-lg overflow-hidden"
+                      >
+                        <img
+                          src={url}
+                          alt="existing"
+                          className="w-full h-full object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveExistingImage(index);
+                          }}
+                          className="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                    {images.map((file, index) => (
+                      <div
+                        key={`new-${index}-${file.name}`}
+                        className="relative w-20 h-20 border rounded-lg overflow-hidden"
+                      >
+                        <img
+                          src={URL.createObjectURL(file)}
+                          alt="preview"
+                          className="w-full h-full object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveNewImage(index);
+                          }}
+                          className="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center justify-center w-full h-32 text-gray-400">
+                    <p>Click or drag images here to upload</p>
+                  </div>
+                )}
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  id="room-image-input"
+                  className="hidden"
+                  onChange={handleAddImages}
+                />
+              </div>
+            </div>
           </div>
 
+          {/* Actions */}
           <div className="flex gap-3 border-t p-4">
             <button
               type="button"
@@ -146,10 +284,10 @@ export default function EditRoom({ room, onClose }: Props) {
 
             <button
               type="submit"
-              disabled={isPending}
+              disabled={isUpdatingRoom || isUploadingImages}
               className="flex-1 bg-[#003366] hover:bg-[#014487] text-white rounded-xl py-2"
             >
-              {isPending ? "Updating..." : "Update"}
+              {isUpdatingRoom || isUploadingImages ? "Updating..." : "Update"}
             </button>
           </div>
         </form>

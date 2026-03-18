@@ -9,6 +9,7 @@ import ProtectedRoute from "./components/protect-route";
 import AdminDashboard from "./pages/admin/dashboard";
 import AdminLayout from "./components/layout/admin-layout";
 import Room from "./pages/admin/room";
+import BookDetail from "./pages/book-detail";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
 
       <Route element={<ProtectedRoute allowedRoles={["ADMIN", "USER"]} />}>
         <Route element={<Layout />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/book-room/:roomId" element={<BookDetail />} />
           <Route path="/book-room" element={<Booking />} />
           <Route path="/my-bookings" element={<MyBooking />} />
         </Route>

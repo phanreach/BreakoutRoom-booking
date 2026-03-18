@@ -14,7 +14,6 @@ export default function CreateRoom() {
   const { mutate: createRoom, isPending } = UseRoomMutation();
   const { mutate: uploadImages, isLoading: isUploading } =
     UseRoomImageMutation();
-  const [preview, setPreview] = useState<string | null>(null);
 
   const {
     register,
@@ -55,7 +54,7 @@ export default function CreateRoom() {
     if (!e.target.files) return;
     const filesArray = Array.from(e.target.files);
     setImages((prev) => [...prev, ...filesArray]);
-    e.target.value = ""; // reset input
+    e.target.value = "";
   };
 
   const handleRemoveImage = (index: number) => {

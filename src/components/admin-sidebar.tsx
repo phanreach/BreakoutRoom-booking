@@ -65,7 +65,7 @@ export default function AdminSideBar({
       <div className="flex-1 overflow-y-auto px-3 py-6">
         <nav className="space-y-1">
           {navItems.map(({ icon: Icon, label, href }) => {
-            const isActive = location.pathname === href;
+            const isActive = location.pathname.startsWith(href);
 
             return (
               <button

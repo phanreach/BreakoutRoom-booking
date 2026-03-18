@@ -37,7 +37,7 @@ export default function Login() {
       if (role?.includes("ADMIN")) {
         navigate("/admin/dashboard");
       } else {
-        navigate("/");
+        navigate("/dashboard");
       }
     } catch {
       // error handled in hook
