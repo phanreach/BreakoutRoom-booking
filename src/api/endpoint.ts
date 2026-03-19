@@ -9,9 +9,12 @@ export const API_ENDPOINT = {
   UPDATE_ROOM_IMAGE: (roomId: number) => `/api/rooms/update-images/${roomId}`,
   DELETE_ROOM_IMAGE: (imageId: number) => `/api/rooms/images/${imageId}`,
 
-  BOOKING: "/api/bookings",
+  BOOKING: "/api/booking",
   BOOKING_DELETE: (Id: number) => `/api/booking/${Id}`,
   BOOKING_UPDATE: (Id: number) => `/api/booking/${Id}`,
+
+  USERS: "/api/users",
+  USER: (userId: number) => `/api/users/${userId}`,
 };
 
 export type ApiEndpointProps = (typeof API_ENDPOINT)[keyof typeof API_ENDPOINT];

@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 import { API_ENDPOINT } from "./endpoint";
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -13,6 +13,42 @@ const api = axios.create({
   baseURL: VITE_BASE_URL,
   withCredentials: true,
 });
+
+type RequestWithToastControl = {
+  skipErrorToast?: boolean;
+};
+
+const getErrorMessage = (error: AxiosError) => {
+  const data = error.response?.data as
+    | {
+        message?: string;
+        error?: string;
+        errors?: Array<{ message?: string }> | Record<string, string[] | string>;
+      }
+    | undefined;
+
+  if (typeof data?.message === "string" && data.message.trim()) {
+    return data.message;
+  }
+
+  if (typeof data?.error === "string" && data.error.trim()) {
+    return data.error;
+  }
+
+  if (Array.isArray(data?.errors)) {
+    const firstMessage = data.errors.find((item) => item?.message)?.message;
+    if (firstMessage) return firstMessage;
+  }
+
+  if (data?.errors && typeof data.errors === "object") {
+    const firstError = Object.values(data.errors).flat()[0];
+    if (typeof firstError === "string" && firstError.trim()) {
+      return firstError;
+    }
+  }
+
+  return "Something went wrong!";
+};
 
 api.interceptors.request.use((config) => {
   const token = Cookies.get("token");
@@ -39,10 +75,12 @@ api.interceptors.response.use(
     return response;
   },
   async (error: AxiosError) => {
-    toast.error(
-      (error.response?.data as { message?: string })?.message ||
-        "Something went wrong!",
-    );
+    const requestConfig = error.config as (typeof error.config &
+      RequestWithToastControl) | null;
+
+    if (!requestConfig?.skipErrorToast) {
+      toast.error(getErrorMessage(error));
+    }
 
     return Promise.reject(error);
   },

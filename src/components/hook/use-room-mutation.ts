@@ -27,13 +27,13 @@ export default function UseRoomMutation() {
     },
     onSuccess: ({ toastId }) => {
       toast.dismiss(toastId);
-      toast.success("Project added successfully", { id: toastId });
+      toast.success("Room added successfully", { id: toastId });
       queryClient.invalidateQueries({
         queryKey: ["rooms"],
       });
     },
     onError: (error: unknown, _variables, context) => {
-      let message = "Failed to add project";
+      let message = "Failed to add room";
       if (axios.isAxiosError(error))
         message = error.response?.data?.message || message;
       else if (error instanceof Error) message = error.message;
