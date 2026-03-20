@@ -6,7 +6,7 @@
   "env": {
     "production": {
       "vars": {
-        "VITE_BASE_URL": "http://138.197.45.40:8080"
+        "VITE_BASE_URL": "https://api.breakoutroom.cloud"
       }
     }
   }
