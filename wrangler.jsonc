@@ -1,11 +1,8 @@
 {
-  "$schema": "https://developers.cloudflare.com/workers/cli-wrangler/config",
+  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "breakout-room",
-  "compatibility_date": "2026-02-12",
-  "main": "workers-site/index.js",
-  "site": {
-    "bucket": "./dist"
-  },
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-03-20",
   "env": {
     "production": {
       "vars": {
