@@ -1,10 +1,25 @@
 import useRoomQuery from "../components/hook/use-room-query";
+import { RoomGridSkeleton } from "../components/loading-skeletons";
 import RoomCard from "../components/room-card";
 
 export default function Book() {
   const { data: roomsData, isLoading, error } = useRoomQuery();
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return (
+      <div>
+        <div className="flex justify-between border-b bg-white p-6">
+          <div>
+            <h1 className="text-3xl font-bold">Book Breakout Room</h1>
+            <p className="text-sm text-gray-500">
+              Find and book the perfect space for your next group study
+            </p>
+          </div>
+        </div>
+        <RoomGridSkeleton />
+      </div>
+    );
+  }
   if (error) return <p>Error loading rooms</p>;
 
   return (

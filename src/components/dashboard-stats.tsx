@@ -12,6 +12,7 @@ import {
   Clock,
   House,
 } from "lucide-react";
+import { Skeleton } from "./ui/skeleton";
 
 const iconMap = {
   users: Users,
@@ -49,8 +50,16 @@ export default function DashboardStats({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="h-[140px] w-72 shrink-0 bg-white border rounded-xl animate-pulse"
-          />
+            className="h-[140px] w-72 shrink-0 rounded-xl border bg-white p-6"
+          >
+            <div className="space-y-6">
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-8 w-8 rounded-lg" />
+                <Skeleton className="h-4 w-28" />
+              </div>
+              <Skeleton className="h-10 w-24" />
+            </div>
+          </div>
         ))}
       </div>
     );

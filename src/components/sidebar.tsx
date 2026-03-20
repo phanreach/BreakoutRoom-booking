@@ -24,7 +24,7 @@ export default function SideBar({
   };
 
   const navItems = [
-    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/" },
     { icon: CirclePlus, label: "Book a Room", href: "/book-room" },
     { icon: Calendar, label: "My Bookings", href: "/my-bookings" },
   ];
@@ -67,24 +67,23 @@ export default function SideBar({
       <div className="flex-1 overflow-y-auto px-3 py-6">
         <nav className="space-y-1">
           {navItems.map(({ icon: Icon, label, href }) => {
-            const isActive = location.pathname.startsWith(href);
+            // Fix active state
+            const isActive =
+              href === "/"
+                ? location.pathname === "/" // exact match for root
+                : location.pathname.startsWith(href); // startsWith for others
+
             return (
               <button
                 key={label}
                 onClick={() => navigate(href)}
                 title={collapsed ? label : undefined}
                 className={`flex items-center w-full px-4 py-3 rounded-xl text-sm font-medium transition
-                ${collapsed ? "justify-center" : ""}
-                
-                ${
-                  isActive
-                    ? "bg-primary text-white font-semibold"
-                    : "hover:bg-gray-100 text-gray-700"
-                }
-                `}
+        ${collapsed ? "justify-center" : ""}
+        ${isActive ? "bg-primary text-white font-semibold" : "hover:bg-gray-100 text-gray-700"}
+      `}
               >
                 <Icon className="w-5 h-5 shrink-0" />
-
                 {!collapsed && <span className="ml-3">{label}</span>}
               </button>
             );

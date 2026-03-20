@@ -3,6 +3,7 @@ import { DeleteDialog } from "../../components/delete-dialog";
 import EditBooking from "../../components/edit-booking";
 import UseBookingQuery from "../../components/hook/use-booking-query";
 import UseDeleteBooking from "../../components/hook/use-delete-booking";
+import { BookingTableSkeleton } from "../../components/loading-skeletons";
 import type { Booking } from "../../type/api";
 import { useState } from "react";
 
@@ -14,7 +15,24 @@ export default function StudentBooking() {
 
   const { mutate: deleteBooking, isPending } = UseDeleteBooking();
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return (
+      <div>
+        <div className="flex justify-between border-b bg-white p-6">
+          <div>
+            <h1 className="text-3xl font-bold">Booking Management</h1>
+            <p className="text-sm text-gray-500">
+              Monitor and handle student breakout room reservations.
+            </p>
+          </div>
+        </div>
+
+        <div className="p-6">
+          <BookingTableSkeleton />
+        </div>
+      </div>
+    );
+  }
   if (error) return <p>Error loading bookings</p>;
 
   const handleEdit = (booking: Booking) => {

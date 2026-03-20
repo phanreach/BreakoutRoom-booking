@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import BookingCard from "./booking-card";
 import UseBookingQuery from "./hook/use-booking-query";
 import UseDeleteBooking from "./hook/use-delete-booking";
+import { BookingHistorySkeleton } from "./loading-skeletons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 const toBookingEndDate = (date: string, endTime: string) => {
@@ -33,7 +34,6 @@ export default function HistoryBook() {
 
   return (
     <div className="min-h-screen bg-slate-50/60">
-      {/* HEADER */}
       <div className="border-b bg-white px-8 py-6 shadow-sm">
         <div className="mx-auto flex items-center justify-between">
           <div>
@@ -45,9 +45,8 @@ export default function HistoryBook() {
             </p>
           </div>
 
-          {/* Summary pills */}
           {!isLoading && !error && (
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="hidden items-center gap-2 sm:flex">
               <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                 {upcomingBookings.length} upcoming
               </span>
@@ -59,21 +58,14 @@ export default function HistoryBook() {
         </div>
       </div>
 
-      {/* STATES */}
-      {isLoading && (
-        <div className="flex items-center justify-center gap-2 p-12 text-sm text-slate-400">
-          <div className="h-4 w-4 animate-spin rounded-full border-2 border-slate-200 border-t-primary" />
-          Loading your bookings…
-        </div>
-      )}
+      {isLoading && <BookingHistorySkeleton />}
 
       {error && (
-        <div className="mx-auto mt-8 rounded-2xl border border-red-100 bg-red-50 p-5 text-sm text-red-500 mx-6">
-          ⚠️ Failed to load your bookings. Please try again.
+        <div className="mx-6 mt-8 rounded-2xl border border-red-100 bg-red-50 p-5 text-sm text-red-500">
+          Failed to load your bookings. Please try again.
         </div>
       )}
 
-      {/* TABS */}
       {!isLoading && !error && (
         <div className="mx-auto px-6 py-6">
           <Tabs defaultValue="upcoming">

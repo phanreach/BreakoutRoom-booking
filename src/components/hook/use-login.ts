@@ -49,7 +49,7 @@ export default function useLogin() {
       if (data.role === "ADMIN") {
         navigate("/admin/dashboard");
       } else {
-        navigate("/dashboard");
+        navigate("/");
       }
     },
 

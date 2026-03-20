@@ -20,7 +20,7 @@ function App() {
 
       <Route element={<ProtectedRoute allowedRoles={["ADMIN", "USER"]} />}>
         <Route element={<Layout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/book-room/:roomId" element={<BookDetail />} />
           <Route path="/book-room" element={<Booking />} />
           <Route path="/my-bookings" element={<HistoryBook />} />

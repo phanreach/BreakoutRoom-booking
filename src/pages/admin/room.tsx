@@ -5,6 +5,7 @@ import CreateRoom from "../../components/create-room";
 import EditRoom from "../../components/edit-room";
 import type { Room } from "../../type/api";
 import UseDeleteRoom from "../../components/hook/use-delete-room";
+import { RoomGridSkeleton } from "../../components/loading-skeletons";
 import { DeleteDialog } from "../../components/delete-dialog";
 
 export default function Room() {
@@ -30,7 +31,21 @@ export default function Room() {
     setDeleteOpen(true);
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return (
+      <>
+        <div className="flex justify-between border-b bg-white p-6">
+          <div>
+            <h1 className="text-3xl font-bold">Room Management</h1>
+            <p className="text-sm text-gray-500">Manage breakout rooms</p>
+          </div>
+
+          {isAdmin && <CreateRoom />}
+        </div>
+        <RoomGridSkeleton />
+      </>
+    );
+  }
   if (error) return <p>Error loading rooms</p>;
 
   return (
