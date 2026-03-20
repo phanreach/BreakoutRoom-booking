@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developers.cloudflare.com/workers/cli-wrangler/config",
+  "name": "breakout-room",
+  "compatibility_date": "2026-02-12",
+  "type": "javascript",
+  "env": {
+    "production": {
+      "vars": {
+        "VITE_BASE_URL": "http://138.197.45.40:8080"
+      }
+    }
+  },
+  "site": {
+    "bucket": "build",
+    "entry-point": "workers-site"
+  }
+}
