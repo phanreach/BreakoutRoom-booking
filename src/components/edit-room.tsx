@@ -58,8 +58,10 @@ export default function EditRoom({ room, onClose }: Props) {
   }, [room, reset]);
 
   const handleAddImages = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    setImages((prev) => [...prev, ...Array.from(e.target.files)]);
+    const { files } = e.currentTarget;
+    if (!files?.length) return;
+    setImages((prev) => [...prev, ...Array.from(files)]);
+    e.currentTarget.value = "";
   };
 
   const handleRemoveNewImage = (index: number) => {

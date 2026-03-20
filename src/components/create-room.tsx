@@ -12,7 +12,7 @@ export default function CreateRoom() {
   const [open, setOpen] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const { mutate: createRoom, isPending } = UseRoomMutation();
-  const { mutate: uploadImages, isLoading: isUploading } =
+  const { mutate: uploadImages, isPending: isUploading } =
     UseRoomImageMutation();
 
   const {
@@ -51,10 +51,11 @@ export default function CreateRoom() {
   };
 
   const handleAddImages = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    const filesArray = Array.from(e.target.files);
+    const { files } = e.currentTarget;
+    if (!files?.length) return;
+    const filesArray = Array.from(files);
     setImages((prev) => [...prev, ...filesArray]);
-    e.target.value = "";
+    e.currentTarget.value = "";
   };
 
   const handleRemoveImage = (index: number) => {
