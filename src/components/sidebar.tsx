@@ -31,6 +31,7 @@ export default function SideBar({
 
   const handleLogout = () => {
     Cookies.remove("token");
+    Cookies.remove("refreshToken");
     Cookies.remove("fullName");
     Cookies.remove("email");
     Cookies.remove("role");

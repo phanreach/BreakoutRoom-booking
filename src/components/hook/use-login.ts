@@ -17,6 +17,7 @@ export type LoginResponse = {
   phone: string;
   role: string;
   token: string;
+  refreshToken: string;
 };
 
 export type LoginApiResponse = {
@@ -39,6 +40,7 @@ export default function useLogin() {
       console.log("LOGIN SUCCESS", data);
 
       Cookies.set("token", data.token);
+      Cookies.set("refreshToken", data.refreshToken);
       Cookies.set("role", data.role);
       Cookies.set("fullName", data.fullName);
       Cookies.set("email", data.email);

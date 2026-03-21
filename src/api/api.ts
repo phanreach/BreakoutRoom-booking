@@ -93,16 +93,23 @@ export const loginApi = (username: string, password: string) =>
 
 export const refreshToken = async (): Promise<string | null> => {
   try {
-    const token = Cookies.get("token");
-    if (!token) return null;
+    const storedRefreshToken = Cookies.get("refreshToken");
+    if (!storedRefreshToken) return null;
 
     const response = await axios.post(`${VITE_BASE_URL}/auth/refresh`, {
-      refreshToken: token,
+      refreshToken: storedRefreshToken,
     });
 
-    const newAccessToken = response.data?.accessToken;
+    const newAccessToken =
+      response.data?.accessToken ?? response.data?.data?.accessToken;
+    const newRefreshToken =
+      response.data?.refreshToken ?? response.data?.data?.refreshToken;
+
     if (newAccessToken) {
       Cookies.set("token", newAccessToken);
+      if (newRefreshToken) {
+        Cookies.set("refreshToken", newRefreshToken);
+      }
       return newAccessToken;
     }
 

@@ -19,6 +19,7 @@ export type RegisterResponse = {
   phone: string;
   role: string;
   token: string;
+  refreshToken: string;
 };
 
 export type SignUpApiResponse = RegisterResponse;
@@ -41,6 +42,7 @@ export default function useSignUp() {
       console.log("SIGNUP SUCCESS", data);
 
       Cookies.set("token", data.token);
+      Cookies.set("refreshToken", data.refreshToken);
       Cookies.set("role", data.role);
       Cookies.set("fullName", data.fullName);
       Cookies.set("email", data.email);

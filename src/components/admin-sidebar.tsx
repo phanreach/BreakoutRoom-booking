@@ -29,6 +29,7 @@ export default function AdminSideBar({
 
   const handleLogout = () => {
     Cookies.remove("token");
+    Cookies.remove("refreshToken");
     Cookies.remove("fullName");
     Cookies.remove("email");
     Cookies.remove("role");
