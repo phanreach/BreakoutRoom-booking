@@ -5,6 +5,7 @@ export type User = {
   phone: string;
   password: string;
   role: "ADMIN" | "USER";
+  enabled: boolean;
 };
 
 export type RoomImage = {

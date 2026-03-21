@@ -4,6 +4,7 @@ import {
   LayoutDashboard,
   LogOut,
   ChevronRight,
+  User,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -25,6 +26,11 @@ export default function AdminSideBar({
     { icon: LayoutDashboard, label: "Dashboard", href: "/admin/dashboard" },
     { icon: HousePlus, label: "Room", href: "/admin/room" },
     { icon: CalendarDays, label: "Bookings", href: "/admin/bookings" },
+    {
+      icon: User,
+      label: "User Management",
+      href: "/admin/user-management",
+    },
   ];
 
   const handleLogout = () => {

@@ -8,65 +8,52 @@ import {
 } from "../../components/ui/table";
 import ChartLineDefault from "../../components/ui/line-chart";
 import DashboardStats from "../../components/dashboard-stats";
-import { EllipsisVertical, FolderUp, HousePlus, UserPlus } from "lucide-react";
+import { FolderUp, HousePlus, UserPlus } from "lucide-react";
+import useUsersQuery from "../../components/hook/use-users-query";
+import useRoomQuery from "../../components/hook/use-room-query";
+import UseBookingQuery from "../../components/hook/use-booking-query";
 
 export default function AdminDashboard() {
-  const isLoading = false;
+  const { data: users = [], isLoading: isLoadingUsers } = useUsersQuery();
+  const { data: rooms = [], isLoading: isLoadingRooms } = useRoomQuery();
+  const { data: bookings = [], isLoading: isLoadingBookings } =
+    UseBookingQuery();
+
+  const isLoading = isLoadingUsers || isLoadingRooms || isLoadingBookings;
+
   const stats = [
     {
       id: "booking",
       title: "Total Bookings",
-      value: 12,
+      value: bookings.length,
       icon: "CalendarCheck" as const,
       iconColor: "text-blue-500",
     },
     {
       id: "user",
       title: "Total Users",
-      value: 212,
+      value: users.length,
       icon: "users" as const,
       iconColor: "text-green-500",
     },
     {
       id: "room",
-      title: "Room Occupancy",
-      value: 12,
-      icon: "ClipboardClock" as const,
+      title: "Total Rooms",
+      value: rooms.length,
+      icon: "House" as const,
       iconColor: "text-red-500",
     },
   ];
 
-  const bookings = [
-    {
-      user: "Alex Johnson",
-      course: "Computer Science",
-      room: "Room 402 - Tech Hub",
-      time: "Today, 2:00 PM",
-      duration: "2 Hours",
-      status: "Confirmed",
-      avatar:
-        "https://img.freepik.com/premium-vector/vector-illustration-color-avatar-user-profile-person-icon-profile-picture-person-with-facial-features-suitable-social-media-profiles-icons-screensavers-as-templatex9_719432-2106.jpg?semt=ais_hybrid&w=740&q=80",
-    },
-    {
-      user: "Sarah Miller",
-      course: "Architecture",
-      room: "Room 105 - Design Lab",
-      time: "Today, 4:30 PM",
-      duration: "1 Hour",
-      status: "Pending",
-      avatar: "https://img.icons8.com/color/1200/user-male-circle--v10.jpg",
-    },
-    {
-      user: "Marcus Chen",
-      course: "Business School",
-      room: "Room 312 - Study Pod",
-      time: "Today, 10:00 AM",
-      duration: "3 Hours",
-      status: "Completed",
-      avatar:
-        "https://png.pngtree.com/png-vector/20231019/ourmid/pngtree-user-profile-avatar-png-image_10211471.png",
-    },
-  ];
+  const formatTime24To12 = (time24: string) => {
+    if (!time24) return "N/A";
+    const [hourStr, minuteStr] = time24.split(":");
+    let hour = Number.parseInt(hourStr, 10);
+    const ampm = hour >= 12 ? "PM" : "AM";
+    hour %= 12;
+    if (hour === 0) hour = 12;
+    return `${hour}:${minuteStr} ${ampm}`;
+  };
 
   return (
     <div>
@@ -134,9 +121,9 @@ export default function AdminDashboard() {
         <div className="bg-white rounded-lg mt-6 shadow-sm overflow-hidden">
           <div className="p-6 border-b flex items-center justify-between">
             <h3 className="text-lg font-bold">Recent Bookings</h3>
-            <button className="text-sm text-primary font-semibold hover:underline">
-              View All Bookings
-            </button>
+            <p className="text-sm text-slate-500">
+              {bookings.length} booking{bookings.length === 1 ? "" : "s"}
+            </p>
           </div>
 
           <Table className="min-w-full">
@@ -144,67 +131,60 @@ export default function AdminDashboard() {
               <TableRow>
                 <TableHead className="px-4 py-3">User</TableHead>
                 <TableHead className="px-4 py-3">Room</TableHead>
-                <TableHead className="px-4 py-3">Time</TableHead>
-                <TableHead className="px-4 py-3">Status</TableHead>
-                <TableHead className="px-4 py-3 text-center">Action</TableHead>
+                <TableHead className="px-4 py-3">Date</TableHead>
+                <TableHead className="px-4 py-3">Time Slot</TableHead>
+                <TableHead className="px-4 py-3">Participants</TableHead>
               </TableRow>
             </TableHeader>
 
             <TableBody>
-              {bookings.map((b) => (
-                <TableRow
-                  key={b.user}
-                  className="hover:bg-slate-50 transition-colors"
-                >
-                  <TableCell className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full overflow-hidden">
-                        <img
-                          src={b.avatar}
-                          alt={b.user}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="flex flex-col justify-center">
-                        <p className="text-sm font-bold">{b.user}</p>
-                        <p className="text-[10px] text-slate-400 ">
-                          {b.course}
-                        </p>
-                      </div>
-                    </div>
-                  </TableCell>
-
-                  <TableCell className="px-4 py-3 text-sm font-medium">
-                    {b.room}
-                  </TableCell>
-
-                  <TableCell className="px-4 py-3">
-                    <div className="text-sm">{b.time}</div>
-                    <p className="text-[10px] text-slate-40">{b.duration}</p>
-                  </TableCell>
-
-                  <TableCell className="px-4 py-3">
-                    <span
-                      className={`inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold ${
-                        b.status === "Confirmed"
-                          ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"
-                          : b.status === "Pending"
-                            ? "bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400"
-                            : "bg-slate-100 text-slate-700 dark:bg-slate-500/10 dark:text-slate-400"
-                      }`}
-                    >
-                      {b.status}
-                    </span>
-                  </TableCell>
-
-                  {/* Action */}
-                  <TableCell className="px-4 py-3 text-center">
-                    <button className="text-slate-400 hover:text-primary transition-colors">
-                      <EllipsisVertical />
-                    </button>
+              {bookings.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="px-4 py-8 text-center text-slate-500">
+                    No bookings found
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                bookings.map((booking) => (
+                  <TableRow
+                    key={booking.id}
+                    className="hover:bg-slate-50 transition-colors"
+                  >
+                    <TableCell className="px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">
+                          {booking.userName
+                            ? booking.userName.charAt(0).toUpperCase()
+                            : "N"}
+                        </div>
+                        <div className="flex flex-col justify-center">
+                          <p className="text-sm font-bold">
+                            {booking.userName || "N/A"}
+                          </p>
+                          <p className="text-[10px] text-slate-400">
+                            Booking #{booking.id}
+                          </p>
+                        </div>
+                      </div>
+                    </TableCell>
+
+                    <TableCell className="px-4 py-3 text-sm font-medium">
+                      {booking.room?.name || "N/A"}
+                    </TableCell>
+
+                    <TableCell className="px-4 py-3">{booking.date}</TableCell>
+
+                    <TableCell className="px-4 py-3">
+                      {formatTime24To12(booking.startTime)} -{" "}
+                      {formatTime24To12(booking.endTime)}
+                    </TableCell>
+
+                    <TableCell className="px-4 py-3">
+                      {booking.participants}
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </div>

@@ -11,6 +11,7 @@ import Room from "./pages/admin/room";
 import BookDetail from "./pages/book-detail";
 import StudentBooking from "./pages/admin/student-booking";
 import HistoryBook from "./components/history-book";
+import UserManagement from "./pages/admin/user-management";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/room" element={<Room />} />
           <Route path="/admin/bookings" element={<StudentBooking />} />
+          <Route path="/admin/user-management" element={<UserManagement />} />
         </Route>
       </Route>
     </Routes>
