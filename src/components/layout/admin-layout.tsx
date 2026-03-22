@@ -4,10 +4,16 @@ import AdminSideBar from "../admin-sidebar";
 
 export default function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <AdminSideBar collapsed={collapsed} setCollapsed={setCollapsed} />
+      <AdminSideBar
+        collapsed={collapsed}
+        setCollapsed={setCollapsed}
+        mobileOpen={mobileOpen}
+        setMobileOpen={setMobileOpen}
+      />
       <Content collapsed={collapsed} />
     </div>
   );
@@ -16,8 +22,8 @@ export default function AdminLayout() {
 function Content({ collapsed }: { collapsed: boolean }) {
   return (
     <main
-      className={`flex-1 transition-all duration-300 ${
-        collapsed ? "ml-20" : "ml-64"
+      className={`flex-1 pt-20 transition-all duration-300 md:pt-0 ${
+        collapsed ? "md:ml-20" : "md:ml-64"
       }`}
     >
       <Outlet />

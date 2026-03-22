@@ -2,7 +2,7 @@ import { Skeleton } from "./ui/skeleton";
 
 export function RoomGridSkeleton({ count = 8 }: { count?: number }) {
   return (
-    <div className="grid grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 sm:gap-6 sm:p-6 xl:grid-cols-3 2xl:grid-cols-4">
       {Array.from({ length: count }).map((_, index) => (
         <div
           key={index}

@@ -16,7 +16,7 @@ export default function CapacityBooking({
   setNotes,
 }: Props) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+    <div className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm sm:p-6">
       <h2 className="mb-6 flex items-center gap-2 text-base font-semibold text-slate-800">
         <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
           2

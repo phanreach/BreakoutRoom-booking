@@ -8,9 +8,9 @@ export default function Book() {
   if (isLoading) {
     return (
       <div>
-        <div className="flex justify-between border-b bg-white p-6">
+        <div className="flex flex-col gap-4 border-b bg-white p-4 sm:p-6">
           <div>
-            <h1 className="text-3xl font-bold">Book Breakout Room</h1>
+            <h1 className="text-2xl font-bold sm:text-3xl">Book Breakout Room</h1>
             <p className="text-sm text-gray-500">
               Find and book the perfect space for your next group study
             </p>
@@ -24,15 +24,15 @@ export default function Book() {
 
   return (
     <div>
-      <div className="flex justify-between border-b bg-white p-6">
+      <div className="flex flex-col gap-4 border-b bg-white p-4 sm:p-6">
         <div>
-          <h1 className="text-3xl font-bold">Book Breakout Room</h1>
+          <h1 className="text-2xl font-bold sm:text-3xl">Book Breakout Room</h1>
           <p className="text-sm text-gray-500">
             Find and book the perfect space for your next group study
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-4 p-6 gap-4">
+      <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 sm:p-6 xl:grid-cols-3 2xl:grid-cols-4">
         {roomsData?.length ? (
           roomsData.map((room) => <RoomCard key={room.id} rooms={room} />)
         ) : (

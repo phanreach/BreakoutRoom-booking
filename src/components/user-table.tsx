@@ -19,14 +19,18 @@ export default function UserTable({ users, onEdit, onDelete }: Props) {
   return (
     <div>
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <Table className="min-w-full">
+        <Table className="min-w-[860px]">
           <TableHeader className="bg-slate-50">
             <TableRow>
               <TableHead className="px-4 py-3">USER</TableHead>
               <TableHead className="px-4 py-3">EMAIL</TableHead>
-              <TableHead className="px-4 py-3">PHONE</TableHead>
+              <TableHead className="hidden px-4 py-3 md:table-cell">
+                PHONE
+              </TableHead>
               <TableHead className="px-4 py-3">ROLE</TableHead>
-              <TableHead className="px-4 py-3">STATUS</TableHead>
+              <TableHead className="hidden px-4 py-3 sm:table-cell">
+                STATUS
+              </TableHead>
               <TableHead className="px-4 py-3">ACTIONS</TableHead>
             </TableRow>
           </TableHeader>
@@ -42,7 +46,10 @@ export default function UserTable({ users, onEdit, onDelete }: Props) {
               </TableRow>
             ) : (
               users.map((u) => (
-                <TableRow key={u.id} className="hover:bg-slate-50 transition-colors">
+                <TableRow
+                  key={u.id}
+                  className="hover:bg-slate-50 transition-colors"
+                >
                   <TableCell className="px-4 py-3">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">
@@ -59,7 +66,9 @@ export default function UserTable({ users, onEdit, onDelete }: Props) {
 
                   <TableCell className="px-4 py-3">{u.email || "N/A"}</TableCell>
 
-                  <TableCell className="px-4 py-3">{u.phone || "N/A"}</TableCell>
+                  <TableCell className="hidden px-4 py-3 md:table-cell">
+                    {u.phone || "N/A"}
+                  </TableCell>
 
                   <TableCell className="px-4 py-3">
                     <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
@@ -72,7 +81,7 @@ export default function UserTable({ users, onEdit, onDelete }: Props) {
                     </span>
                   </TableCell>
 
-                  <TableCell className="px-4 py-3">
+                  <TableCell className="hidden px-4 py-3 sm:table-cell">
                     <span
                       className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
                         u.enabled

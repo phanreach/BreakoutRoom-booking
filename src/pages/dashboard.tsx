@@ -34,11 +34,11 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="bg-background-light dark:bg-background-dark min-h-screen p-8">
+    <div className="min-h-screen bg-background-light p-4 dark:bg-background-dark sm:p-6 lg:p-8">
       {/* Header */}
-      <header className="flex justify-between items-end mb-8">
+      <header className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 dark:text-white">
+          <h1 className="text-2xl font-black text-slate-900 dark:text-white sm:text-3xl">
             Welcome Back, {fullname}
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-1">
@@ -46,7 +46,7 @@ export default function Dashboard() {
           </p>
         </div>
 
-        <button className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:opacity-90">
+        <button className="w-full rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:opacity-90 sm:w-auto">
           + New Booking
         </button>
       </header>
@@ -57,12 +57,12 @@ export default function Dashboard() {
       </div>
 
       {/* Main Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
         {/* Left Column */}
         <div className="lg:col-span-2 space-y-8">
           {/* Upcoming Bookings */}
           <section>
-            <div className="flex justify-between mb-4">
+            <div className="mb-4 flex items-center justify-between gap-3">
               <h3 className="text-xl font-bold">Upcoming Bookings</h3>
               <button className="text-primary text-sm font-semibold">
                 View All
@@ -73,11 +73,11 @@ export default function Dashboard() {
               {upcomingBookings.map((booking) => (
                 <div
                   key={booking.id}
-                  className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 flex gap-6"
+                  className="flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 sm:flex-row sm:gap-6 sm:p-5"
                 >
                   <img
                     src={booking.image}
-                    className="w-40 h-28 rounded-lg object-cover"
+                    className="h-48 w-full rounded-lg object-cover sm:h-28 sm:w-40"
                   />
 
                   <div className="flex flex-col justify-between flex-1">
@@ -93,7 +93,7 @@ export default function Dashboard() {
                       </p>
                     </div>
 
-                    <div className="flex gap-3">
+                    <div className="flex flex-wrap gap-3">
                       <button className="text-sm font-bold text-primary">
                         View Details
                       </button>
@@ -134,7 +134,7 @@ export default function Dashboard() {
 
         {/* Right Column */}
         <div>
-          <section className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6">
+          <section className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 sm:p-6">
             <h3 className="text-lg font-bold mb-6">Recent Activity</h3>
 
             <div className="space-y-4">

@@ -34,7 +34,7 @@ export default function RoomCard({
   };
 
   return (
-    <div className="max-w-sm rounded-2xl overflow-hidden shadow-md bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col border border-gray-100">
+    <div className="w-full rounded-2xl overflow-hidden border border-gray-100 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <div className="relative overflow-hidden h-48">
         <img
           src={image}
@@ -78,10 +78,10 @@ export default function RoomCard({
           <span>Floor {rooms.floor}</span>
         </div>
 
-        <div className="border-t border-gray-100 mt-4 pt-4 flex justify-end items-center gap-2">
+        <div className="mt-4 flex items-center justify-end gap-2 border-t border-gray-100 pt-4">
           {!isAdmin && (
             <button
-              className="bg-[#003366] text-white text-sm font-semibold px-5 py-2 rounded-xl hover:bg-[#014487] shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer"
+              className="w-full cursor-pointer rounded-xl bg-[#003366] px-5 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#014487] hover:shadow-md sm:w-auto"
               onClick={() => handleNavigate(rooms.id)}
             >
               Book Now
@@ -89,16 +89,16 @@ export default function RoomCard({
           )}
 
           {isAdmin && (
-            <div className="flex gap-2">
+            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
               <button
                 onClick={() => onEdit?.(rooms)}
-                className="flex items-center gap-1.5 bg-[#003366] text-white text-sm font-medium px-3.5 py-2 rounded-xl hover:bg-[#014487] transition-colors duration-200"
+                className="flex items-center justify-center gap-1.5 rounded-xl bg-[#003366] px-3.5 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#014487]"
               >
                 <Edit className="w-3.5 h-3.5" /> Edit
               </button>
               <button
                 onClick={() => onDelete?.(rooms.id)}
-                className="flex items-center gap-1.5 bg-red-50 text-red-600 border border-red-200 text-sm font-medium px-3.5 py-2 rounded-xl hover:bg-red-100 hover:border-red-300 transition-all duration-200"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-red-200 bg-red-50 px-3.5 py-2 text-sm font-medium text-red-600 transition-all duration-200 hover:border-red-300 hover:bg-red-100"
               >
                 <Trash2 className="w-3.5 h-3.5" /> Delete
               </button>

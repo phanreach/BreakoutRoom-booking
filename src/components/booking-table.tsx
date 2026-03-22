@@ -2,10 +2,11 @@ import { PenBox, Trash2 } from "lucide-react";
 import type { Booking } from "../type/api";
 import {
   Table,
-  TableHeader,
-  TableHead,
   TableBody,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "./ui/table";
 
 type Props = {
@@ -28,27 +29,34 @@ export default function BookingTable({ bookings, onEdit, onDelete }: Props) {
   return (
     <div>
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <Table className="min-w-full">
+        <Table className="min-w-[760px]">
           <TableHeader className="bg-slate-50">
-            <TableHead className="px-4 py-3">STUDENT</TableHead>
-            <TableHead className="px-4 py-3">ROOM</TableHead>
-            <TableHead className="px-4 py-3">DATE</TableHead>
-            <TableHead className="px-4 py-3">TIME SLOT</TableHead>
-            <TableHead className="px-4 py-3">ACTIONS</TableHead>
+            <TableRow>
+              <TableHead className="px-4 py-3">STUDENT</TableHead>
+              <TableHead className="px-4 py-3">ROOM</TableHead>
+              <TableHead className="hidden px-4 py-3 md:table-cell">
+                DATE
+              </TableHead>
+              <TableHead className="px-4 py-3">TIME SLOT</TableHead>
+              <TableHead className="px-4 py-3">ACTIONS</TableHead>
+            </TableRow>
           </TableHeader>
           <TableBody>
             {bookings.length === 0 ? (
-              <tr>
+              <TableRow>
                 <TableCell
                   colSpan={5}
                   className="text-center text-gray-500 py-4"
                 >
                   No bookings found
                 </TableCell>
-              </tr>
+              </TableRow>
             ) : (
               bookings.map((b) => (
-                <tr key={b.id} className="hover:bg-slate-50 transition-colors">
+                <TableRow
+                  key={b.id}
+                  className="hover:bg-slate-50 transition-colors"
+                >
                   <TableCell className="px-4 py-3">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">
@@ -64,7 +72,9 @@ export default function BookingTable({ bookings, onEdit, onDelete }: Props) {
                     {b.room?.name || "N/A"}
                   </TableCell>
 
-                  <TableCell className="px-4 py-3">{b.date}</TableCell>
+                  <TableCell className="hidden px-4 py-3 md:table-cell">
+                    {b.date}
+                  </TableCell>
 
                   <TableCell className="px-4 py-3">
                     {formatTime24To12(b.startTime)} -{" "}
@@ -88,7 +98,7 @@ export default function BookingTable({ bookings, onEdit, onDelete }: Props) {
                       <Trash2 size={18} />
                     </button>
                   </TableCell>
-                </tr>
+                </TableRow>
               ))
             )}
           </TableBody>

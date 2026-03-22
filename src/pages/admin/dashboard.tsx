@@ -57,18 +57,18 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <main className="flex-1 overflow-y-auto p-8 not-odd:space-y-8">
-        <div className="w-auto py-6 space-y-6">
+      <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+        <div className="w-auto py-4 space-y-4 sm:py-6 sm:space-y-6">
           <DashboardStats stats={stats} isLoading={isLoading} />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
           <div className="lg:col-span-2">
             <ChartLineDefault />
           </div>
 
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
-            <h3 className="text-lg font-bold mb-6">Quick Actions</h3>
+          <div className="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
+            <h3 className="text-lg font-bold mb-4 sm:mb-6">Quick Actions</h3>
 
             {/* Buttons */}
             {[
@@ -90,7 +90,7 @@ export default function AdminDashboard() {
             ].map((action, idx) => (
               <button
                 key={idx}
-                className="w-full flex items-center gap-4 p-4 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-primary hover:bg-primary/5 transition-all text-left mb-4 last:mb-0 group"
+                className="group mb-4 flex w-full items-center gap-3 rounded-xl border-2 border-dashed border-slate-200 p-4 text-left transition-all last:mb-0 hover:border-primary hover:bg-primary/5 dark:border-slate-800 sm:gap-4"
               >
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                   {action.icon}
@@ -119,28 +119,31 @@ export default function AdminDashboard() {
         </div>
 
         <div className="bg-white rounded-lg mt-6 shadow-sm overflow-hidden">
-          <div className="p-6 border-b flex items-center justify-between">
+          <div className="flex flex-col gap-2 border-b p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6">
             <h3 className="text-lg font-bold">Recent Bookings</h3>
             <p className="text-sm text-slate-500">
               {bookings.length} booking{bookings.length === 1 ? "" : "s"}
             </p>
           </div>
 
-          <Table className="min-w-full">
+          <Table className="min-w-[760px]">
             <TableHeader className="bg-slate-50">
               <TableRow>
                 <TableHead className="px-4 py-3">User</TableHead>
                 <TableHead className="px-4 py-3">Room</TableHead>
-                <TableHead className="px-4 py-3">Date</TableHead>
+                <TableHead className="hidden px-4 py-3 md:table-cell">Date</TableHead>
                 <TableHead className="px-4 py-3">Time Slot</TableHead>
-                <TableHead className="px-4 py-3">Participants</TableHead>
+                <TableHead className="hidden px-4 py-3 sm:table-cell">Participants</TableHead>
               </TableRow>
             </TableHeader>
 
             <TableBody>
               {bookings.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="px-4 py-8 text-center text-slate-500">
+                  <TableCell
+                    colSpan={5}
+                    className="px-4 py-8 text-center text-slate-500"
+                  >
                     No bookings found
                   </TableCell>
                 </TableRow>
@@ -172,14 +175,16 @@ export default function AdminDashboard() {
                       {booking.room?.name || "N/A"}
                     </TableCell>
 
-                    <TableCell className="px-4 py-3">{booking.date}</TableCell>
+                    <TableCell className="hidden px-4 py-3 md:table-cell">
+                      {booking.date}
+                    </TableCell>
 
                     <TableCell className="px-4 py-3">
                       {formatTime24To12(booking.startTime)} -{" "}
                       {formatTime24To12(booking.endTime)}
                     </TableCell>
 
-                    <TableCell className="px-4 py-3">
+                    <TableCell className="hidden px-4 py-3 sm:table-cell">
                       {booking.participants}
                     </TableCell>
                   </TableRow>

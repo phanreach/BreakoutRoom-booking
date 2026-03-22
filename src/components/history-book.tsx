@@ -34,8 +34,8 @@ export default function HistoryBook() {
 
   return (
     <div className="min-h-screen bg-slate-50/60">
-      <div className="border-b bg-white px-8 py-6 shadow-sm">
-        <div className="mx-auto flex items-center justify-between">
+      <div className="border-b bg-white px-4 py-5 shadow-sm sm:px-6 sm:py-6 lg:px-8">
+        <div className="mx-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               My Bookings
@@ -61,13 +61,13 @@ export default function HistoryBook() {
       {isLoading && <BookingHistorySkeleton />}
 
       {error && (
-        <div className="mx-6 mt-8 rounded-2xl border border-red-100 bg-red-50 p-5 text-sm text-red-500">
+        <div className="mx-4 mt-6 rounded-2xl border border-red-100 bg-red-50 p-5 text-sm text-red-500 sm:mx-6 sm:mt-8">
           Failed to load your bookings. Please try again.
         </div>
       )}
 
       {!isLoading && !error && (
-        <div className="mx-auto px-6 py-6">
+        <div className="mx-auto px-4 py-4 sm:px-6 sm:py-6">
           <Tabs defaultValue="upcoming">
             <TabsList variant="line">
               <TabsTrigger value="upcoming">

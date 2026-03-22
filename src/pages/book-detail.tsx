@@ -71,7 +71,7 @@ export default function BookDetail() {
     participants > 0 &&
     participants <= (room?.capacity ?? 0);
 
-  if (!room) return <p>Room not found</p>;
+  if (!room) return <p className="p-4 sm:p-6">Room not found</p>;
 
   const handleConfirmBooking = () => {
     if (!date || !canSubmit) return;
@@ -95,15 +95,15 @@ export default function BookDetail() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
-      <div className="border-b border-slate-100 bg-white px-8 py-6">
-        <div className="flex items-start justify-between">
+      <div className="border-b border-slate-100 bg-white px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
           <div>
             <div className="mb-1 flex items-center gap-2">
               <span className="text-xs font-semibold uppercase tracking-widest text-primary/60">
                 Room Booking
               </span>
             </div>
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
               Book Breakout <span className="text-primary">{room.name}</span>
             </h1>
             <p className="mt-1 text-sm text-slate-400">
@@ -128,9 +128,9 @@ export default function BookDetail() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 px-8 py-8 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 px-4 py-4 sm:gap-8 sm:px-6 sm:py-6 lg:px-8 xl:grid-cols-3 xl:py-8">
         <div className="flex flex-col gap-6 xl:col-span-2">
-          <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+          <div className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm sm:p-6">
             <h2 className="mb-6 flex items-center gap-2 text-base font-semibold text-slate-800">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
                 1
@@ -138,7 +138,7 @@ export default function BookDetail() {
               Date &amp; Time Selection
             </h2>
 
-            <div className="grid items-start gap-8 md:grid-cols-2">
+            <div className="grid items-start gap-6 sm:gap-8 md:grid-cols-2">
               <div className="flex flex-col items-center">
                 <Calendar
                   mode="single"
@@ -194,7 +194,7 @@ export default function BookDetail() {
             setNotes={setNotes}
           />
 
-          <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+          <div className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm sm:p-6">
             <h2 className="mb-5 flex items-center gap-2 text-base font-semibold text-slate-800">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
                 3
@@ -237,7 +237,7 @@ export default function BookDetail() {
                     key={imgUrl}
                     src={imgUrl}
                     alt={room.name}
-                    className="h-28 w-28 cursor-pointer rounded-xl border border-slate-100 object-cover shadow-sm transition-transform hover:scale-105"
+                    className="h-24 w-24 cursor-pointer rounded-xl border border-slate-100 object-cover shadow-sm transition-transform hover:scale-105 sm:h-28 sm:w-28"
                   />
                 ))}
               </div>
@@ -246,7 +246,7 @@ export default function BookDetail() {
         </div>
 
         <div className="xl:col-span-1">
-          <div className="sticky top-6">
+          <div className="xl:sticky xl:top-6">
             <BookingSummary
               room={room}
               dateLabel={dateLabel}

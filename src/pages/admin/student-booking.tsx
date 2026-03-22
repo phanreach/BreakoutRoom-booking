@@ -18,16 +18,18 @@ export default function StudentBooking() {
   if (isLoading) {
     return (
       <div>
-        <div className="flex justify-between border-b bg-white p-6">
+        <div className="flex flex-col gap-4 border-b bg-white p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6">
           <div>
-            <h1 className="text-3xl font-bold">Booking Management</h1>
+            <h1 className="text-2xl font-bold sm:text-3xl">
+              Booking Management
+            </h1>
             <p className="text-sm text-gray-500">
               Monitor and handle student breakout room reservations.
             </p>
           </div>
         </div>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           <BookingTableSkeleton />
         </div>
       </div>
@@ -46,16 +48,18 @@ export default function StudentBooking() {
 
   return (
     <div>
-      <div className="flex justify-between border-b bg-white p-6">
+      <div className="flex flex-col gap-4 border-b bg-white p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6">
         <div>
-          <h1 className="text-3xl font-bold">Booking Management</h1>
+          <h1 className="text-2xl font-bold sm:text-3xl">
+            Booking Management
+          </h1>
           <p className="text-sm text-gray-500">
             Monitor and handle student breakout room reservations.
           </p>
         </div>
       </div>
 
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <BookingTable
           bookings={bookingData || []}
           onEdit={handleEdit}

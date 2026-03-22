@@ -18,16 +18,16 @@ export default function UserManagement() {
   if (isLoading) {
     return (
       <div>
-        <div className="flex justify-between border-b bg-white p-6">
+        <div className="flex flex-col gap-4 border-b bg-white p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6">
           <div>
-            <h1 className="text-3xl font-bold">User Management</h1>
+            <h1 className="text-2xl font-bold sm:text-3xl">User Management</h1>
             <p className="text-sm text-gray-500">Manage system users</p>
           </div>
 
           <CreateUser />
         </div>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           <div className="rounded-lg bg-white p-6 shadow-sm">
             <p className="text-sm text-gray-500">Loading users...</p>
           </div>
@@ -48,16 +48,16 @@ export default function UserManagement() {
 
   return (
     <div>
-      <div className="flex justify-between border-b bg-white p-6">
+      <div className="flex flex-col gap-4 border-b bg-white p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6">
         <div>
-          <h1 className="text-3xl font-bold">User Management</h1>
+          <h1 className="text-2xl font-bold sm:text-3xl">User Management</h1>
           <p className="text-sm text-gray-500">Manage system users</p>
         </div>
 
         <CreateUser />
       </div>
 
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <UserTable
           users={usersData || []}
           onEdit={handleEdit}

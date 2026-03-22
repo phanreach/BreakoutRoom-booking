@@ -33,7 +33,7 @@ export default function BookingSummary({
 }: BookingSummaryProps) {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-5 rounded-2xl bg-primary p-6 text-white shadow-lg">
+      <div className="flex flex-col gap-5 rounded-2xl bg-primary p-4 text-white shadow-lg sm:p-6">
         <div className="flex items-center justify-between">
           <h3 className="text-base font-bold tracking-tight">Booking Summary</h3>
           <span className="rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-white/80">

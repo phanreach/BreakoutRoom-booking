@@ -34,9 +34,9 @@ export default function Room() {
   if (isLoading) {
     return (
       <>
-        <div className="flex justify-between border-b bg-white p-6">
+        <div className="flex flex-col gap-4 border-b bg-white p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6">
           <div>
-            <h1 className="text-3xl font-bold">Room Management</h1>
+            <h1 className="text-2xl font-bold sm:text-3xl">Room Management</h1>
             <p className="text-sm text-gray-500">Manage breakout rooms</p>
           </div>
 
@@ -50,16 +50,16 @@ export default function Room() {
 
   return (
     <>
-      <div className="flex justify-between border-b bg-white p-6">
+      <div className="flex flex-col gap-4 border-b bg-white p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6">
         <div>
-          <h1 className="text-3xl font-bold">Room Management</h1>
+          <h1 className="text-2xl font-bold sm:text-3xl">Room Management</h1>
           <p className="text-sm text-gray-500">Manage breakout rooms</p>
         </div>
 
         {isAdmin && <CreateRoom />}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 p-6">
+      <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 sm:gap-6 sm:p-6 xl:grid-cols-3 2xl:grid-cols-4">
         {roomsData?.length ? (
           roomsData.map((room) => (
             <RoomCard
